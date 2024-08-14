@@ -1,0 +1,61 @@
+﻿@rendermode InteractiveServer
+@page "/"
+@page "/login"
+@inject NavigationManager NavigationManager
+
+<PageTitle>Signin</PageTitle>
+
+<div class="text-center signin-body">
+    <div class="form-signin">
+        <img class="mb-4" src="logo.png" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" class="form-control" @bind="Email" placeholder="Email address" required autofocus>
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" @bind="Password" placeholder="Password" required>
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="button" @onclick="HandleLogin">Sign in</button>
+
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <div class="alert alert-danger mt-3">@ErrorMessage</div>
+        }
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+    </div>
+</div>
+
+<button @onclick="Clear">Clear All Codes</button>
+
+@code {
+    private string? Email { get; set; }
+    private string? Password { get; set; }
+    private string? ErrorMessage { get; set; }
+
+    private void Clear()
+    {
+        Email = "";
+        Password = "";
+        ErrorMessage = "";
+    }
+
+    private void HandleLogin()
+    {
+        if (Email == "admin@umat.edu.gh" && Password == "umat")
+        {
+            NavigationManager.NavigateTo("/dashboard");
+        }
+        else
+        {
+            ErrorMessage = "Please enter the correct email and password.";
+        }
+    }
+}
